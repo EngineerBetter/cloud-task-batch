@@ -16,9 +16,10 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
-import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.task.configuration.EnableTask;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
@@ -26,12 +27,14 @@ import com.fil.service.model.Customer;
 import com.fil.service.task.CustomerItemProcessor;
 import com.fil.service.task.JobCompletionNotificationListener;
 
+@ComponentScan(basePackages="com.fil.service.*")
 @Configuration
 @EnableBatchProcessing
+@EnableTask
 public class BatchJobConfiguration {
 
 	private static final Logger logger = LoggerFactory.getLogger(BatchJobConfiguration.class);
-	
+
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
 
@@ -40,7 +43,7 @@ public class BatchJobConfiguration {
 
 	@Autowired
 	public DataSource dataSource;
-	
+
 	@Autowired
 	JobCompletionNotificationListener listener;
 
@@ -92,7 +95,7 @@ public class BatchJobConfiguration {
 		return stepBuilderFactory.get("readerStep").<Customer, Customer> chunk(10).reader(reader())
 				.processor(processor()).writer(writer()).build();
 	}
-	
+
 	// just one job as an app
 	 /*@Bean
 	    public Job job() {

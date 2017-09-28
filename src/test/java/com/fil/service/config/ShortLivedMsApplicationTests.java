@@ -28,6 +28,12 @@ public class ShortLivedMsApplicationTests {
 
 	}
 
+	@Test
+	public void testLaunchStep() {
+		JobExecution jobExecution = jobLauncherTestUtils.launchStep("readerStep");
+		assertEquals(BatchStatus.COMPLETED, jobExecution.getStatus());
+	}
+
 	@Configuration
 	public static class TestConfig {
 		@Bean

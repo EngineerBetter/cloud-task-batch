@@ -1,8 +1,9 @@
-DROP TABLE CUSTOMER IF EXISTS;
+DROP TABLE IF EXISTS CUSTOMER;
 
 CREATE TABLE CUSTOMER  (
-    customer_id BIGINT IDENTITY NOT NULL PRIMARY KEY,
+    customer_id INT NOT NULL,
     first_name VARCHAR(20),
     last_name VARCHAR(20),
-    account_no VARCHAR(20)
+    account_no VARCHAR(20),
+   PRIMARY KEY (customer_id)
    );

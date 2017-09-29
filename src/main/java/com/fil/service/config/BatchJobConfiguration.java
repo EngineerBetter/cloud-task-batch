@@ -17,6 +17,7 @@ import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.task.configuration.EnableTask;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -47,6 +48,9 @@ public class BatchJobConfiguration {
 	@Autowired
 	JobCompletionNotificationListener listener;
 
+	@Value("${crashedAccountNo:#{null}}")
+	private String crashedAccountNo;
+
 	@Bean
 	public FlatFileItemReader<Customer> reader() {
 		FlatFileItemReader<Customer> reader = new FlatFileItemReader<Customer>();
@@ -71,7 +75,7 @@ public class BatchJobConfiguration {
 
 	@Bean
 	public CustomerItemProcessor processor() {
-		return new CustomerItemProcessor();
+		return new CustomerItemProcessor(crashedAccountNo);
 	}
 
 	@Bean

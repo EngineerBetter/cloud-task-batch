@@ -89,7 +89,7 @@ public class BatchJobConfiguration {
 
 	@Bean
 	public Job importComposedJob(JobCompletionNotificationListener listener) {
-		return jobBuilderFactory.get("importComposedJob").incrementer(new TimeStampJobParameter()).listener(listener)
+		return jobBuilderFactory.get("importComposedJob").listener(listener)
 				.flow(readerStep()).end().build();
 	}
 

@@ -95,16 +95,4 @@ public class BatchJobConfiguration {
 		return stepBuilderFactory.get("readerStep").<Customer, Customer> chunk(10).reader(reader())
 				.processor(processor()).writer(writer()).build();
 	}
-
-	// just one job as an app
-	 /*@Bean
-	    public Job job() {
-	        return jobBuilderFactory.get("job").start(stepBuilderFactory.get("jobStep1").tasklet(new Tasklet() {
-	            @Override
-	            public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-	                logger.info("Job was run");
-	                return RepeatStatus.FINISHED;
-	            }
-	        }).build()).build();
-	    }*/
 }

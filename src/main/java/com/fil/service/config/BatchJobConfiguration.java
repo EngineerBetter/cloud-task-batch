@@ -52,10 +52,10 @@ public class BatchJobConfiguration {
 	private String crashedAccountNo;
 
 	@Bean
-	public FlatFileItemReader<Customer> reader() {
+	public FlatFileItemReader<Customer> reader(String filename) {
 		FlatFileItemReader<Customer> reader = new FlatFileItemReader<Customer>();
 		reader.setStrict(false);
-		reader.setResource(new ClassPathResource("sample-data.csv"));
+		reader.setResource(new ClassPathResource(filename));
 		reader.setLineMapper(new DefaultLineMapper<Customer>() {
 			{
 				setLineTokenizer(new DelimitedLineTokenizer() {
@@ -91,12 +91,17 @@ public class BatchJobConfiguration {
 	@Bean
 	public Job importComposedJob(JobCompletionNotificationListener listener) {
 		return jobBuilderFactory.get("importComposedJob").incrementer(new RunIdIncrementer()).listener(listener)
-				.flow(readerStep()).end().build();
+				.flow(readerStep()).next(readerStep2()).end().build();
 	}
 
 	@Bean
 	public Step readerStep() {
-		return stepBuilderFactory.get("readerStep").<Customer, Customer> chunk(10).reader(reader())
+		return stepBuilderFactory.get("readerStep").<Customer, Customer> chunk(10).reader(reader("sample-data.csv"))
 				.processor(processor()).writer(writer()).build();
+	}
+
+	@Bean
+	public Step readerStep2() {
+		return stepBuilderFactory.get("readerStep2	").<Customer, Customer>chunk(1).reader(reader("sample-data2.csv")).processor(processor()).writer(writer()).build();
 	}
 }

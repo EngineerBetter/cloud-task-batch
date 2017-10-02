@@ -2,7 +2,7 @@
 
 set -eu
 
-
+COMMIT_HASH=$(git rev-parse HEAD)
 DATAFLOW_URL=https://dataflow-fil.cfapps.io
 
 # register the app

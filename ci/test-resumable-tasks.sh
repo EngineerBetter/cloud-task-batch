@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eux
+set -eu
 
 DATAFLOW_URL=https://dataflow-fil.cfapps.io
 

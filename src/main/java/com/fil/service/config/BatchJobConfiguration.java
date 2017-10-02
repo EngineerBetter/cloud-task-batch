@@ -51,7 +51,6 @@ public class BatchJobConfiguration {
 	@Value("${crashedAccountNo:#{null}}")
 	private String crashedAccountNo;
 
-	@Bean
 	public FlatFileItemReader<Customer> reader(String filename) {
 		FlatFileItemReader<Customer> reader = new FlatFileItemReader<Customer>();
 		reader.setStrict(false);

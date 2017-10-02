@@ -2,4 +2,7 @@
 
 set -eu
 
-curl -X DELETE https://dataflow-fil.cfapps.io/tasks/definitions/task
+DATAFLOW_URL=https://dataflow-fil.cfapps.io
+
+curl -X DELETE ${DATAFLOW_URL}/tasks/definitions/task
+curl -X DELETE ${DATAFLOW_URL}/apps/task/app
